@@ -1,7 +1,7 @@
 all: BarberMain
 
 BarberMain: BarberShopMain sthread.o Lock.o BarberShop Cond.o
-	g++ -lpthread BarberShopMain.o BarberShop.o sthread.o Lock.o Cond.o -o BarberMain
+	g++ -pthread BarberShopMain.o BarberShop.o sthread.o Lock.o Cond.o -o BarberMain
 
 BarberShop:  BarberShop.h BarberShop.cc
 	g++ -g -Wall -Werror -D_POSIX_THREAD_SEMANTICS BarberShop.cc -c -o BarberShop.o

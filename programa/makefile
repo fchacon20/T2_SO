@@ -1,17 +1,17 @@
-all: BarberMain
+all: main
 
-BarberMain: BarberShopMain sthread.o Lock.o BarberShop Cond.o
-	g++ -lpthread BarberShopMain.o BarberShop.o sthread.o Lock.o Cond.o -o BarberMain
+main: main sthread.o Lock.o Train Cond.o
+	g++ -pthread main.o Train.o sthread.o Lock.o Cond.o -o main
 
-BarberShop:  BarberShop.h BarberShop.cc
-	g++ -g -Wall -Werror -D_POSIX_THREAD_SEMANTICS BarberShop.cc -c -o BarberShop.o
+Train:  Train.h Train.cpp
+	g++ -g -Wall -Werror -D_POSIX_THREAD_SEMANTICS Train.cpp -c -o Train.o
 Cond.o: Lock.o Cond.cc Cond.h
 	g++ -g -Wall -Werror -D_POSIX_THREAD_SEMANTICS  Cond.cc -c -o Cond.o
 Lock.o: sthread.o Lock.cc Lock.h
 	 g++ -g -Wall -Werror -D_POSIX_THREAD_SEMANTICS  Lock.cc -c -o Lock.o
 sthread.o: sthread.c sthread.h
 	gcc -g -Wall -Werror -D_POSIX_THREAD_SEMANTICS sthread.c -c -o sthread.o
-BarberShopMain: BarberShopMain.cc
-		g++ -g -Wall -Werror -D_POSIX_THREAD_SEMANTICS BarberShopMain.cc -c -o BarberShopMain.o
+main: main.cpp
+		g++ -g -Wall -Werror -D_POSIX_THREAD_SEMANTICS main.cpp -c -o main.o
 clean:
-	rm -rf *.o BarberMain
+	rm -rf *.o main
