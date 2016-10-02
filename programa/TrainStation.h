@@ -13,7 +13,7 @@ class TrainStation{
 		int id; //del 1 al 15, o del 1 al 25?
 
 	public:
-		TrainStation(int dest, int iid);
+		TrainStation();
 		~TrainStation();
 	
 };
