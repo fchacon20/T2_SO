@@ -1,17 +1,17 @@
-all: main
+all: TrainStationMain
 
-main: main sthread.o Lock.o Train Cond.o
-	g++ -pthread main.o Train.o sthread.o Lock.o Cond.o -o main
+TrainStationMain: TrainStationMain sthread.o Lock.o TrainStation Cond.o
+	g++ -pthread TrainStationMain.o TrainStation.o sthread.o Lock.o Cond.o -o TrainStationMain
 
-Train:  Train.h Train.cpp
-	g++ -g -Wall -Werror -D_POSIX_THREAD_SEMANTICS Train.cpp -c -o Train.o
+TrainStation:  TrainStation.h Train.cpp
+	g++ -g -Wall -Werror -D_POSIX_THREAD_SEMANTICS TrainStation.cpp -c -o TrainStation.o
 Cond.o: Lock.o Cond.cc Cond.h
 	g++ -g -Wall -Werror -D_POSIX_THREAD_SEMANTICS  Cond.cc -c -o Cond.o
 Lock.o: sthread.o Lock.cc Lock.h
 	 g++ -g -Wall -Werror -D_POSIX_THREAD_SEMANTICS  Lock.cc -c -o Lock.o
 sthread.o: sthread.c sthread.h
 	gcc -g -Wall -Werror -D_POSIX_THREAD_SEMANTICS sthread.c -c -o sthread.o
-main: main.cpp
-		g++ -g -Wall -Werror -D_POSIX_THREAD_SEMANTICS main.cpp -c -o main.o
+TrainStationMain: TrainStationMain.cpp
+		g++ -g -Wall -Werror -D_POSIX_THREAD_SEMANTICS TrainStationMain.cpp -c -o TrainStationMain.o
 clean:
-	rm -rf *.o main
+	rm -rf *.o TrainStationMain

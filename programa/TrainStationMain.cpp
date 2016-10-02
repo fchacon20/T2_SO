@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <iostream>
 #include "sthread.h"
-#include "Train.h"
-#include <vector>
+#include "TrainStation.h"
 
 using namespace std;
 
@@ -14,15 +13,17 @@ using namespace std;
 #define TPTOMONTT 	10
 
 int main(int argc, char const *argv[]){
-
-	vector<Train> trains;
 	
-	trains.push_back(Train stgo("stgo"));
-	
-	for (vector<Train>::iterator i = trains.begin(); i != trains.end(); ++i)
-	{
-		cout << *i.dst << endl;
+	Train *ts = new TrainStation(1,1);
+	switch (train1.dst){
+		case(1):
+			cout << "stgo" << endl;
+			break;
+		case(2):
+			cout << "stgo" << endl;
+			break;
+		default:
+			cout << "Winter is coming" << endl;
 	}
-
 	return 0;
 }

@@ -1,13 +1,10 @@
-#include "Train.h"
+#include "TrainStation.h"
 #include "Lock.h"
 #include "Cond.h"
 #include "sthread.h"
 #include <string>
 
-void Train::Train(string dest){
+void TrainStation::TrainStation(int dest, int iid){
 	dst = dest;
-}
-
-void Train::goOut(){
-
+	id = iid;
 }
