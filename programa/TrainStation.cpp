@@ -4,7 +4,13 @@
 #include "sthread.h"
 #include <string>
 
-void TrainStation::TrainStation(int dest, int iid){
-	dst = dest;
-	id = iid;
+bool TrainStation::getOut(){
+	bool ret = true;
+	lock.Acquire();
+	lock.Release();
+	return ret;
+}
+
+bool TrainStation::AssignRail(){
+	
 }
