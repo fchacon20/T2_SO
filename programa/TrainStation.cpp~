@@ -4,7 +4,7 @@
 #include "sthread.h"
 #include <string>
 
-TrainStation::TrainStation(int dest, int iid){
+void TrainStation::TrainStation(int dest, int iid){
 	dest = dest;
 	id = iid;
 }

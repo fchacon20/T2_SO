@@ -15,7 +15,7 @@ using namespace std;
 int main(int argc, char const *argv[]){
 	
 	TrainStation *ts = new TrainStation(1,1);
-	switch (ts->dest){
+	switch (ts.dest){
 		case(1):
 			cout << "stgo" << endl;
 			break;
