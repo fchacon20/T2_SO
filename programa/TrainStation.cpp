@@ -11,6 +11,11 @@ bool TrainStation::getOut(){
 	return ret;
 }
 
+TrainStation::TrainStation(int dest, int iid){
+	dest = dest;
+	id = iid;
+}
+
 bool TrainStation::AssignRail(){
 	
 }

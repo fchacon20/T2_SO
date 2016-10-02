@@ -1,9 +1,9 @@
-all: TrainStationMain
+all: TrainSMain
 
-TrainStationMain: TrainStationMain sthread.o Lock.o TrainStation Cond.o
+TrainSMain: TrainStationMain sthread.o Lock.o TrainStation Cond.o
 	g++ -pthread TrainStationMain.o TrainStation.o sthread.o Lock.o Cond.o -o TrainStationMain
 
-TrainStation:  TrainStation.h Train.cpp
+TrainStation:  TrainStation.h TrainStation.cpp
 	g++ -g -Wall -Werror -D_POSIX_THREAD_SEMANTICS TrainStation.cpp -c -o TrainStation.o
 Cond.o: Lock.o Cond.cc Cond.h
 	g++ -g -Wall -Werror -D_POSIX_THREAD_SEMANTICS  Cond.cc -c -o Cond.o

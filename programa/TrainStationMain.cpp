@@ -65,7 +65,6 @@ int main(int argc, char const *argv[]){
 		if (ii%5 == 0)
 			i++;
 		rails[i].containers.push_back(new Container(ii+1));
-	}
 
 	//Primera asignacion de container a tren
 	for (int i = 0; i < NTRAINS; í++){
@@ -73,8 +72,18 @@ int main(int argc, char const *argv[]){
 		rails[i].containers.pop_back();
 	}
 	
-	
 
+/*	TrainStation *ts = new TrainStation(1,1);
+	switch (ts->dest){
+		case(1):
+			cout << "stgo" << endl;
+			break;
+		case(2):
+			cout << "stgo" << endl;
+			break;
+		default:
+			cout << "Winter is coming" << endl;
+	}*/
 
 	return 0;
 }
