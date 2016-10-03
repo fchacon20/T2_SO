@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <iostream>
-#include "sthread.h"
+//#include "sthread.h"
 #include "TrainStation.h"
 
 using namespace std;
@@ -14,8 +14,8 @@ using namespace std;
 #define TCONCE 		4
 #define TPTOMONTT 	10
 
-void *trainMain(void *tsPtr, int dest){
-	TrainStation *ts = (TrainStation *)bsPtr;
+/*void *trainMain(void *tsPtr, int dest){
+	TrainStation *ts = (TrainStation *)tsPtr;
 	while(1){
 		ts->getOut();
 		switch(dest){
@@ -41,39 +41,15 @@ void *trainMain(void *tsPtr, int dest){
 		
 	}
 	return NULL;
-}
+}*/
 
 
 int main(int argc, char const *argv[]){
 	
-	int ii = 1;
-	Train *ts = new TrainStation();
-	Train trains[NTRAINS];
-	Rail rails[NRAILS];
-	//sthread_t trains[NTRAINS];
+	//int ii = 1;
+	TrainStation *ts = new TrainStation();
 
-	//Creacion de trenes y rieles, 5 de ellos, 1 por cada riel
-	for(ii = 0; ii < NTRAINS; ii++)
-		trains[ii] = new Train(ii+1, ii+1);
-	
-	for(ii = 0; ii < NRAILS; ii++)
-		rails[ii] = new Rail(ii+1);
-
-	//Creacion y asignacion de containers
-	int i = -1;
-	for(ii = 0; ii < NCONTAINERS; ii++){
-		if (ii%5 == 0)
-			i++;
-		rails[i].containers.push_back(new Container(ii+1));
-
-	//Primera asignacion de container a tren
-	for (int i = 0; i < NTRAINS; í++){
-		trains[i].container = &rails[i].containers.back();
-		rails[i].containers.pop_back();
-	}
-	
-
-/*	TrainStation *ts = new TrainStation(1,1);
+	/*TrainStation *ts = new TrainStation(1,1);
 	switch (ts->dest){
 		case(1):
 			cout << "stgo" << endl;
@@ -84,6 +60,10 @@ int main(int argc, char const *argv[]){
 		default:
 			cout << "Winter is coming" << endl;
 	}*/
+
+	ts->chooseRail(0);
+    ts->getUnusedRails();
+
 
 	return 0;
 }
