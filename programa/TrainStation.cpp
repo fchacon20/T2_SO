@@ -6,16 +6,27 @@
 #include <string>
 using namespace std;
 
-void TrainStation::chooseRail(int dest){
+int TrainStation::chooseRail(){//Elige el riel por el cual enviar el proximo container
+	int i;
+	bool success = false;
 	lock.Acquire();
-	if (unusedRails[dest]){
-		unusedRails[dest] = false;
-		nextDestination = dest;
+	for (i = 0; i < 5; i++){
+		if (unusedRails[i] && sentTrains[i] < 5){
+			unusedRails[i] = false;
+			nextDestination = i;
+			success = true;
+		}
 	}
 	lock.Release();
+	if (success){
+		return 0;
+	}
+	else{
+		return 1;
+	}
 }
 
-void TrainStation::deployTrain(){
+int TrainStation::sendTrain(){
 	lock.Acquire();
 	if (activeTrains < 5 && stationContainers > 0){
 		//createTrain(nextDestination);
@@ -24,10 +35,24 @@ void TrainStation::deployTrain(){
 		stationContainers--;
 	}
 	lock.Release();
+	return nextDestination;
+}
+
+void TrainStation::trainDone(){
+	return;
+}
+
+void TrainStation::checkContainer(){
+	return;
+}
+
+void TrainStation::unloadContainer(){
+	return;
 }
 
 bool TrainStation::checkCompletion(){
 	//Verificar que todo este hecho
+	return true;
 }
 
 void TrainStation::getUnusedRails() {
@@ -36,6 +61,7 @@ void TrainStation::getUnusedRails() {
     }
 }
 
+/*
 TrainStation::TrainStation(){
 
 	stationContainers = 25;
@@ -44,4 +70,12 @@ TrainStation::TrainStation(){
 		sentTrains[i] = 0;
 		unusedRails[i] = true;
 	}
+}
+*/
+
+TrainStation::TrainStation(){
+	
+	stationContainers = 25;
+	activeTrains = 0;
+	
 }

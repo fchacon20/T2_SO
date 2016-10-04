@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <iostream>
-//#include "sthread.h"
+#include "sthread.h"
 #include "TrainStation.h"
 
 using namespace std;
@@ -14,55 +14,60 @@ using namespace std;
 #define TCONCE 		4
 #define TPTOMONTT 	10
 
-/*void *trainMain(void *tsPtr, int dest){
-	TrainStation *ts = (TrainStation *)tsPtr;
-	while(1){
-		ts->getOut();
-		switch(dest){
-			case(1):
-				sthread_sleep(TSTGO,0);
-				break;
-			case(2):
-				sthread_sleep(TTMCO,0);
-				break;
-			case(3):
-				sthread_sleep(TANTOFA,0);
-				break;
-			case(4):
-				sthread_sleep(TCONCE,0);
-				break;
-			case(5):
-				sthread_sleep(TPTOMONTT,0);
-				break;
-			default:
-				cout << "Something is wrong" << endl;
-				break;
-		}
-		
-	}
-	return NULL;
-}*/
+void *trainMain(void *tsPtr, int dest){
 
+	int currentDestination;
+	TrainStation *ts = (TrainStation *)tsPtr;
+
+	currentDestination = ts->sendTrain();
+
+	sthread_sleep(ts->sleepTime[currentDestination], 0);
+
+	ts->trainDone(); //actualizar trenes activos, rieles usados, etc.
+
+	return NULL;
+}
+
+void *containerMain(void *tsPtr){
+
+	TrainStation *ts = (TrainStation *)tsPtr;
+	int tryAgain = 1;
+	while (tryAgain){
+		tryAgain = ts->chooseRail();
+	}
+
+	//ts->sendTrain();
+	//En este punto hay que indicarle al tren que parta, npi como hacerlo
+
+	ts->unloadContainer();
+	sthread_sleep(11, 0);
+	ts->checkContainer();
+	sthread_sleep(7, 0);
+
+	//se hace algo mas??
+
+	return NULL;
+
+/*
+	se asigna a un riel
+	se envia en un tren
+	- viaje -
+	se baja del tren
+	se chequea el container
+	se descarga el container
+	o primero se descarga y luego se chequea?
+*/
+}
 
 int main(int argc, char const *argv[]){
 	
-	//int ii = 1;
 	TrainStation *ts = new TrainStation();
 
-	/*TrainStation *ts = new TrainStation(1,1);
-	switch (ts->dest){
-		case(1):
-			cout << "stgo" << endl;
-			break;
-		case(2):
-			cout << "stgo" << endl;
-			break;
-		default:
-			cout << "Winter is coming" << endl;
-	}*/
+	//Crear los threads de trenes,containers.
 
-	ts->chooseRail(0);
-    ts->getUnusedRails();
+
+	//ts->chooseRail(0);
+    	ts->getUnusedRails();
 
 
 	return 0;
