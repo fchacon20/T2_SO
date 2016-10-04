@@ -4,6 +4,9 @@
 #include "Cond.h"
 #include <string>
 
+const int NCONTAINRES = 5;
+const int NO_CUST_CLOSING_TIME = -1;
+/*
 class TrainStation{
 	private:
 		Lock lock;
@@ -29,5 +32,35 @@ class TrainStation{
 		TrainStation();
 		~TrainStation();
 	
+};*/
+class TrainStation{
+ private:
+  Lock lock;
+  Cond wakeBarber;
+  Cond nextCustomer;
+
+  bool timeToClose;
+  bool open;
+  int arrivalCount;
+  int cutCount;
+  int fullCount;
+  int sleepTime [5] = {2, 8, 6, 4, 10};
+
+ public:
+  TrainStation();
+  ~TrainStation() {};
+  void barberDay(); // Main loop for barber thread
+  bool getHairCut(); // Called by customer thread
+  void clockRingsClosingTime(); // Called by clock thread
+
+ private:
+  void openStore();
+  int waitForCustomer();
+  void doneCutting();
+  void printFinalStats();
+
+  bool emptyAndOpen();
+  bool stillNeedHaircut(int custId);
+  bool waitingRoomFull();
 };
 #endif
