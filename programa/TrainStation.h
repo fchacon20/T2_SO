@@ -3,6 +3,7 @@
 #include "Lock.h"
 #include "Cond.h"
 #include <string>
+using namespace std;
 
 const int NCONTAINRES = 5;
 const int NO_CUST_CLOSING_TIME = -1;
@@ -35,18 +36,19 @@ class TrainStation{
 };*/
 class TrainStation{
  private:
-  Lock lock[5];
-  Cond wakeBarber;
-  Cond nextCustomer;
+	Lock lock[5];
+	Cond wakeBarber;
+	Cond nextCustomer;
 
-  bool timeToClose;
-  bool open;
-  int arrivalCount;
-  int cutCount;
-  int fullCount;
-    bool unusedRails[5] = {true,true,true,true,true};
-    int waitingContainers[5] = {0,0,0,0,0};
-  int sleepTime [5] = {2, 8, 6, 4, 10};
+	bool timeToClose;
+	bool open;
+	int arrivalCount;
+	int cutCount;
+	int fullCount;
+	bool unusedRails[5] = {true,true,true,true,true};
+	int waitingContainers[5] = {0,0,0,0,0};
+	int sleepTime [5] = {2, 8, 6, 4, 10};
+	//string cities[5] = {"Stgo","Temuco","Antofagasta","Concepcion","Pto Montt"};
 
  public:
   TrainStation();
