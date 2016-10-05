@@ -86,6 +86,7 @@ void *railMain(void *bsPtr)
     while (bs->getCutCount() != NCONTAINERS){
 
     }
+    cout << "se movieron " << bs->getCutCount() << " contenedores" << endl;
   return NULL;
 }
 
@@ -114,13 +115,13 @@ int main(int argc, char **argv)
 {
   int ii;
   TrainStation *bs = new TrainStation();
-  sthread_t rails[NRAILS];
+  sthread_t rail;
   sthread_t containers[NCONTAINERS];
   //sthread_t clock;
 
-    for (int j = 0; j < NRAILS; ++j) {
-        sthread_create_p(&rails[j], railMain, bs);
-    }
+    
+    sthread_create_p(&rail, railMain, bs);
+    
 
   //sthread_create_p(&clock, clockMain, bs);
 
@@ -128,8 +129,7 @@ int main(int argc, char **argv)
     sthread_create_p(&containers[ii], containerMain, bs);
   }
 
-    for (int i = 0; i < NRAILS; ++i) {
-        sthread_join(rails[i]);
-    }
+        sthread_join(rail);
+    
 
 }
