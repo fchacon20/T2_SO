@@ -7,7 +7,7 @@ using namespace std;
 
 #define NTRAINS 	5
 #define NRAILS	 	5
-#define NCONTAINERS	25
+#define NCONTAINERS	15
 #define TSTGO 		2
 #define TTMCO 		8
 #define TANTOFA 	6
@@ -78,19 +78,21 @@ int main(int argc, char const *argv[]){
 	return 0;
 }*/
 
-void *barberMain(void *bsPtr)
+void *railMain(void *bsPtr)
 {
   TrainStation *bs = (TrainStation *)bsPtr;
-  bs->barberDay();
+    //bs->unloadContainer();
+    sthread_sleep(1,0);
   return NULL;
 }
 
-void *custMain(void *bsPtr)
+void *containerMain(void *bsPtr)
 {
   TrainStation *bs = (TrainStation *)bsPtr;
   while(1){
-    bs->getHairCut();
-    sthread_sleep(1, 0);
+    bs->loadContainer();
+    //sthread_exit(1);
+    //sthread_sleep(1, 0);
   }
   return NULL;
 }
@@ -109,14 +111,22 @@ int main(int argc, char **argv)
 {
   int ii;
   TrainStation *bs = new TrainStation();
-  sthread_t barber;
-  sthread_t customers[NCONTAINERS];
+  sthread_t rails[NRAILS];
+  sthread_t containers[NCONTAINERS];
   //sthread_t clock;
 
-  sthread_create_p(&barber, barberMain, bs);
+    for (int j = 0; j < NRAILS; ++j) {
+        sthread_create_p(&rails[j], railMain, bs);
+    }
+
   //sthread_create_p(&clock, clockMain, bs);
+
   for(ii = 0; ii < NCONTAINERS; ii++){
-    sthread_create_p(&customers[ii], custMain, bs);
+    sthread_create_p(&containers[ii], containerMain, bs);
   }
-  sthread_join(barber);
+
+    for (int i = 0; i < NRAILS; ++i) {
+        sthread_join(rails[i]);
+    }
+
 }

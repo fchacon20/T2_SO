@@ -79,46 +79,84 @@ TrainStation::TrainStation(){
 }
 */
 
+void TrainStation::loadContainer() {
+
+    arrivalCount = (++arrivalCount)%5;
+    lock[arrivalCount].Acquire();
+    cout << "Container esperando en riel " << arrivalCount + 1 << endl;
+    waitingContainers[arrivalCount] = 1;
+    travel();
+    lock[arrivalCount].Release();
+    return;
+}
+
+/*int TrainStation::sendTrain(){
+    lock.Acquire();
+    if (activeTrains < 5 && stationContainers > 0){
+        //createTrain(nextDestination);
+        activeTrains++;
+        sentTrains[nextDestination]++;
+        stationContainers--;
+    }
+    lock.Release();
+    return nextDestination;
+}*/
+
+void TrainStation::travel(){
+    if (unusedRails[arrivalCount]) {
+        unusedRails[arrivalCount] = false;
+        cout << "Container subido a tren " << arrivalCount + 1 << ", demorara " << sleepTime[arrivalCount] << " segundos" << endl;
+        sthread_sleep(sleepTime[arrivalCount], 0);
+        //arriveContainer();
+    }
+    return;
+}
+
+void TrainStation::unloadContainer(){
+    return;
+}
+
 void TrainStation::barberDay()
 {
-  // BarberDay is not an atomic action.
-  // No lock. Only touch object's state 
-  // by calling methods that lock.
   int cust;
   int idRail = 0;
-  printf("Opening for the day\n");
-  openStore();
+  //  while(arrivalCount < 15) {
+//        cust = waitForCustomer();
+//        cout << "Container " << cust << " cargado a tren" << endl;
+//    }
+  // openStore();
   while(1){
     cust = waitForCustomer();
-    /*if(cust == NO_CUST_CLOSING_TIME){
+    if(cust == 15){
       printf("Closing for the day\n");
-      printFinalStats();
+      //printFinalStats();
       return;
-    }*/
+    }
     if (cust%5 == 0)
     	idRail = 0;
     idRail++;
-    printf("Container asignado a riel %d\n", idRail);
+      //loadContainer(cust);
+    /*printf("Container asignado a riel %d\n", idRail);
     sthread_sleep(sleepTime[idRail-1], 0); // Simulate time to cut
     cout << "Tren llega a destino " << idRail << endl;
-    doneCutting();
+    doneCutting();*/
   }
 }
 
 void TrainStation::openStore()
 {
-  lock.Acquire();
+  lock[arrivalCount].Acquire();
   open = true;
-  lock.Release();
+  lock[arrivalCount].Release();
   return;
 }
 
 int TrainStation::waitForCustomer()
 {
   int custId;
-  lock.Acquire();
+  lock[arrivalCount].Acquire();
   while(emptyAndOpen()){
-    wakeBarber.Wait(&lock);
+    wakeBarber.Wait(&lock[arrivalCount]);
   }
   //if(timeToClose){
     //open = false; // Stop new arrivals
@@ -129,55 +167,55 @@ int TrainStation::waitForCustomer()
   else{
     custId = NO_CUST_CLOSING_TIME;
   }
-  lock.Release();
+  lock[arrivalCount].Release();
   return custId;
 }
 
 void TrainStation::doneCutting()
 {
-  lock.Acquire();
+  lock[arrivalCount].Acquire();
   cutCount++; 
-  nextCustomer.Broadcast(&lock);
-  lock.Release();
+  nextCustomer.Broadcast(&lock[arrivalCount]);
+  lock[arrivalCount].Release();
   return;
 }
 
 void TrainStation::printFinalStats()
 {
-  lock.Acquire();
+  lock[arrivalCount].Acquire();
   printf("Stats: arrived=%d cut=%d full=%d\n",
          arrivalCount, cutCount, fullCount);
   assert(arrivalCount == cutCount); 
-  lock.Release();
+  lock[arrivalCount].Release();
 }
 
 bool TrainStation::getHairCut()
 {
   int myNumber;
   bool ret;
-  lock.Acquire();
+  lock[arrivalCount].Acquire();
   if(!open || waitingRoomFull()){
     ret = false;
   }
   else{
     // "Take a number" to ensure FIFO service
     myNumber = ++arrivalCount;
-    wakeBarber.Signal(&lock);
+    wakeBarber.Signal(&lock[arrivalCount]);
     while(stillNeedHaircut(myNumber)){
-      nextCustomer.Wait(&lock);
+      nextCustomer.Wait(&lock[arrivalCount]);
     }
     ret = true;
   }
-  lock.Release();
+  lock[arrivalCount].Release();
   return ret;
 }
 
 void TrainStation::clockRingsClosingTime()
 {
-  lock.Acquire();
+  lock[arrivalCount].Acquire();
   timeToClose = true;
-  wakeBarber.Signal(&lock);
-  lock.Release();
+  wakeBarber.Signal(&lock[arrivalCount]);
+  lock[arrivalCount].Release();
 }
 
 // Internal functions for checking status.
@@ -219,7 +257,7 @@ TrainStation::TrainStation(){
 	
 	//stationContainers = 25;
 	//activeTrains = 0;
-	open = false;
+	open = true;
 	timeToClose = false;
 	arrivalCount = 0;
 	cutCount = 0;

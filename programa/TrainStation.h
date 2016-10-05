@@ -35,7 +35,7 @@ class TrainStation{
 };*/
 class TrainStation{
  private:
-  Lock lock;
+  Lock lock[5];
   Cond wakeBarber;
   Cond nextCustomer;
 
@@ -44,6 +44,8 @@ class TrainStation{
   int arrivalCount;
   int cutCount;
   int fullCount;
+    bool unusedRails[5] = {true,true,true,true,true};
+    int waitingContainers[5] = {0,0,0,0,0};
   int sleepTime [5] = {2, 8, 6, 4, 10};
 
  public:
@@ -52,6 +54,9 @@ class TrainStation{
   void barberDay(); // Main loop for barber thread
   bool getHairCut(); // Called by customer thread
   void clockRingsClosingTime(); // Called by clock thread
+    void loadContainer();
+    void unloadContainer();
+    void travel();
 
  private:
   void openStore();
