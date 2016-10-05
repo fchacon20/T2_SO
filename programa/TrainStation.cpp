@@ -85,11 +85,22 @@ void TrainStation::loadContainer() {
     lock[arrivalCount].Acquire();
     cout << "Container esperando en riel " << arrivalCount + 1 << endl;
     waitingContainers[arrivalCount] = 1;
-    travel();
     lock[arrivalCount].Release();
+    travel();
+    arriveContainer();
+    unloadContainer();
+    checkContainer();
+    done();
     return;
 }
 
+int TrainStation::getCutCount() {
+    return cutCount;
+}
+void TrainStation::arriveContainer(){
+    unusedRails[arrivalCount] = true;
+    return;
+}
 /*int TrainStation::sendTrain(){
     lock.Acquire();
     if (activeTrains < 5 && stationContainers > 0){
@@ -103,19 +114,36 @@ void TrainStation::loadContainer() {
 }*/
 
 void TrainStation::travel(){
+    lock[arrivalCount].Acquire();
     if (unusedRails[arrivalCount]) {
         unusedRails[arrivalCount] = false;
         cout << "Container subido a tren " << arrivalCount + 1 << ", demorara " << sleepTime[arrivalCount] << " segundos" << endl;
         sthread_sleep(sleepTime[arrivalCount], 0);
-        //arriveContainer();
     }
+    lock[arrivalCount].Release();
     return;
 }
 
 void TrainStation::unloadContainer(){
+    lock[arrivalCount].Acquire();
+    cout << "Descargando container en " << arrivalCount << endl;
+    sthread_sleep(11, 0);
+    lock[arrivalCount].Release();
     return;
 }
 
+void TrainStation::checkContainer(){
+    lock[arrivalCount].Acquire();
+    cout << "Checkeando container en " << arrivalCount << endl;
+    sthread_sleep(7, 0);
+    lock[arrivalCount].Release();
+    return;
+}
+
+void TrainStation::done(){
+    cutCount++;
+    return;
+}
 void TrainStation::barberDay()
 {
   int cust;

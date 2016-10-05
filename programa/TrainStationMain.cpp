@@ -7,7 +7,7 @@ using namespace std;
 
 #define NTRAINS 	5
 #define NRAILS	 	5
-#define NCONTAINERS	15
+#define NCONTAINERS	2
 #define TSTGO 		2
 #define TTMCO 		8
 #define TANTOFA 	6
@@ -82,7 +82,10 @@ void *railMain(void *bsPtr)
 {
   TrainStation *bs = (TrainStation *)bsPtr;
     //bs->unloadContainer();
-    sthread_sleep(1,0);
+    //sthread_sleep(1,0);
+    while (bs->getCutCount() != NCONTAINERS){
+
+    }
   return NULL;
 }
 

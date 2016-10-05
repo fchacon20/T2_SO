@@ -57,6 +57,10 @@ class TrainStation{
     void loadContainer();
     void unloadContainer();
     void travel();
+    void arriveContainer();
+    void checkContainer();
+    void done();
+   int getCutCount();
 
  private:
   void openStore();
