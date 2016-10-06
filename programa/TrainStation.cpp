@@ -53,9 +53,9 @@ void TrainStation::unloadContainer(int id){
     while (isChecking[id]);
     isUnloading[id] = true;
     unloadList[id] += 1;
-    printf(">> Descargando container en %s\n", cities[id]);
+    printf(">> Descargando container en %s\n", cities[id].c_str());
     sthread_sleep(11, 0);
-    printf(">> Descarga de container en %d lista",id+1);
+    printf(">> Descarga de container en %d lista\n",id+1);
     isUnloading[id] = false;
 
     lock[id].Release();
@@ -88,6 +88,17 @@ TrainStation::TrainStation(){
 	arrivalCount = 1;
 	cutCount = 0;
 	fullCount = 0;
+
+    for(int i = 0; i < 5; i++){
+        unusedRails[i] = true;
+        isChecking[i] = false;
+        isUnloading[i] = false;
+        checkList[i] = 0;
+        unloadList[i] = 0;
+        waitingContainers[i] = 0;
+    }
+
+
 
     cities.push_back("Stgo");
     cities.push_back("Temuco");

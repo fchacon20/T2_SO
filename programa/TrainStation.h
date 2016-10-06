@@ -20,14 +20,14 @@ class TrainStation{
 	int arrivalCount;
 	int cutCount;
 	int fullCount;
-	bool unusedRails[5] = {true,true,true,true,true};
-	bool isChecking[5] = {false,false,false,false,false};
-	bool isUnloading[5] = {false,false,false,false,false};
-	int checkList[5] = {0,0,0,0,0};
-	int unloadList[5] = {0,0,0,0,0};
+	bool unusedRails[5];
+	bool isChecking[5];
+	bool isUnloading[5];
+	int checkList[5];
+	int unloadList[5];
 
-	int waitingContainers[5] = {0,0,0,0,0};
-	int sleepTime [5] = {2, 8, 6, 4, 10};
+	int waitingContainers[5];
+	int sleepTime[5] = {2, 8, 6, 4, 10};
     vector<string> cities;
 //	char* cities[5] = {"Stgo","Temuco","Antofagasta","Concepcion","Pto Montt"};
 
