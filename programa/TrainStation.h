@@ -17,6 +17,7 @@ class TrainStation{
 
 	bool timeToClose;
 	bool open;
+    int totalCount;
 	int arrivalCount;
 	int cutCount;
 	int fullCount;
@@ -37,6 +38,7 @@ class TrainStation{
 	void loadContainer();
 	void unloadContainer(int id);
 	void travel(int id);
+    int getTotalCount();
 	void arriveContainer();
 	void checkContainer(int id);
 	void done(int id);

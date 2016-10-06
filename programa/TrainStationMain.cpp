@@ -5,8 +5,7 @@
 
 using namespace std;
 
-#define NCONTAINERS	15
-
+#define NCONTAINERS	5
 
 void *railMain(void *bsPtr){
     TrainStation *bs = (TrainStation *)bsPtr;
@@ -17,7 +16,7 @@ void *railMain(void *bsPtr){
 
 void *containerMain(void *bsPtr){
   TrainStation *bs = (TrainStation *)bsPtr;
-  while(1){
+  while(bs->getTotalCount() != NCONTAINERS){
     bs->loadContainer();
   }
   return NULL;
