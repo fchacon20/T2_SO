@@ -3,6 +3,7 @@
 #include "Lock.h"
 #include "Cond.h"
 #include <string>
+#include <vector>
 using namespace std;
 
 const int NCONTAINRES = 5;
@@ -27,7 +28,8 @@ class TrainStation{
 
 	int waitingContainers[5] = {0,0,0,0,0};
 	int sleepTime [5] = {2, 8, 6, 4, 10};
-	string cities[5] = {"Stgo","Temuco","Antofagasta","Concepcion","Pto Montt"};
+    vector<string> cities;
+//	char* cities[5] = {"Stgo","Temuco","Antofagasta","Concepcion","Pto Montt"};
 
  public:
 	TrainStation();

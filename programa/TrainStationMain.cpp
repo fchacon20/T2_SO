@@ -5,15 +5,8 @@
 
 using namespace std;
 
-#define NTRAINS 	5
-#define NRAILS	 	5
 #define NCONTAINERS	15
-#define TSTGO 		2
-#define TTMCO 		8
-#define TANTOFA 	6
-#define TCONCE 		4
-#define TPTOMONTT 	10
-#define SIMTIME 	10
+
 
 void *railMain(void *bsPtr){
     TrainStation *bs = (TrainStation *)bsPtr;

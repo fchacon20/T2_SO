@@ -4,11 +4,8 @@
 #include "sthread.h"
 #include <iostream>
 #include <string>
-#include <assert.h>
-#include <errno.h>
-#include <pthread.h>
+
 #include <stdio.h>
-#include <sys/time.h>
 using namespace std;
 
 void TrainStation::loadContainer() {
@@ -56,7 +53,7 @@ void TrainStation::unloadContainer(int id){
     while (isChecking[id]);
     isUnloading[id] = true;
     unloadList[id] += 1;
-    printf(">> Descargando container en %s\n", cities[id+1]);
+    printf(">> Descargando container en %s\n", cities[id]);
     sthread_sleep(11, 0);
     printf(">> Descarga de container en %d lista",id+1);
     isUnloading[id] = false;
@@ -80,19 +77,22 @@ void TrainStation::checkContainer(int id){
 
 void TrainStation::done(int id){
     printf(">>>> Fin del container en %d\n", id+1);
-    //unusedRails[arrivalCount] = true;
     cutCount++;
     return;
 }
 
 TrainStation::TrainStation(){
-	
-	//stationContainers = 25;
-	//activeTrains = 0;
+
 	open = true;
 	timeToClose = false;
 	arrivalCount = 1;
 	cutCount = 0;
 	fullCount = 0;
-	
+
+    cities.push_back("Stgo");
+    cities.push_back("Temuco");
+    cities.push_back("Antofagasta");
+    cities.push_back("Concepcion");
+    cities.push_back("Pto Montt");
+
 }
