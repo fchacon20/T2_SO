@@ -7,32 +7,32 @@ using namespace std;
 
 #define NCONTAINERS	5
 
-void *railMain(void *bsPtr){
-    TrainStation *bs = (TrainStation *)bsPtr;
-    while (bs->getCutCount() != NCONTAINERS);
-    cout << "Se movieron " << bs->getCutCount() << " contenedores" << endl;
+void *stationMain(void *tsPtr){
+    TrainStation *ts = (TrainStation *)tsPtr;
+    while (ts->getCutCount() != NCONTAINERS);
+    cout << "Se movieron " << ts->getCutCount() << " contenedores" << endl;
     return NULL;
 }
 
-void *containerMain(void *bsPtr){
-  TrainStation *bs = (TrainStation *)bsPtr;
-  while(bs->getTotalCount() != NCONTAINERS){
-    bs->loadContainer();
+void *containerMain(void *tsPtr){
+  TrainStation *ts = (TrainStation *)tsPtr;
+  while(ts->getTotalCount() != NCONTAINERS){
+    ts->loadContainer();
   }
   return NULL;
 }
 
 int main(int argc, char **argv){
-    TrainStation *bs = new TrainStation();
-    sthread_t rail;
+    TrainStation *ts = new TrainStation();
+    sthread_t station;
     sthread_t containers[NCONTAINERS];
-    sthread_create_p(&rail, railMain, bs);
+    sthread_create_p(&station, stationMain, ts);
 
     for(int i = 0; i < NCONTAINERS; i++){
-        sthread_create_p(&containers[i], containerMain, bs);
+        sthread_create_p(&containers[i], containerMain, ts);
     }
 
-    sthread_join(rail);
+    sthread_join(station);
     
 
 }
