@@ -5,7 +5,7 @@
 
 using namespace std;
 
-#define NCONTAINERS	5
+#define NCONTAINERS	15
 
 void *stationMain(void *tsPtr){
     TrainStation *ts = (TrainStation *)tsPtr;

@@ -1,0 +1,4 @@
+Se creo una clase TrainStation que se encarga de controlar todas las acciones que ocurren, tales como:
+Un container se asigna a un riel, se asigna a un tren y se envia, se descarga un container, se checkea un container.
+
+Se crearon threads para representar cada container, y un thread que representa a la estación.
